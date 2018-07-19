@@ -115,6 +115,7 @@ nav h1 a {
   /*background-color: #F43EC3;*/
    background:linear-gradient(to right, #61F7B6 , #F3F547);
   /*align-items: center;*/
+  /*flex to have responsiveness when screen size is changed*/
   display: flex;
   align-items: center;
   justify-content: center;
