@@ -30,6 +30,7 @@ initMap = () => {
         id: 'mapbox.streets'    
       }).addTo(newMap);
       fillBreadcrumb();
+      // fillSidenav();
       DBHelper.mapMarkerForRestaurant(self.restaurant, self.newMap);
     }
   });
@@ -177,6 +178,13 @@ fillBreadcrumb = (restaurant=self.restaurant) => {
   breadcrumb.appendChild(li);
 }
 
+   // fillSidenav=(restaurant=self.restaurant) => {
+   //  const sidenav = document.getElementById('mySidenav');
+   //  const a = document.createElement('a');
+   //  a.innerHTMl=restaurant.name;
+   //  sidenav.appendChild(a);
+   // }
+
 /**
  * Get a parameter by name from page URL.
  */
@@ -192,3 +200,15 @@ getParameterByName = (name, url) => {
     return '';
   return decodeURIComponent(results[2].replace(/\+/g, ' '));
 }
+
+var menu = document.querySelector('#menu');
+      var main = document.querySelector('#maincontent');
+      var drawer = document.querySelector('.sidenav');
+
+      menu.addEventListener('click', function(e) {
+        drawer.classList.toggle('open');
+        e.stopPropagation();
+      });
+      main.addEventListener('click', function() {
+        drawer.classList.remove('open');
+      });

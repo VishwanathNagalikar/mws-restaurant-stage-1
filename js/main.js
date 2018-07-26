@@ -34,6 +34,8 @@ fillNeighborhoodsHTML = (neighborhoods = self.neighborhoods) => {
   const select = document.getElementById('neighborhoods-select');
   neighborhoods.forEach(neighborhood => {
     const option = document.createElement('option');
+
+    //put if statement here
     option.innerHTML = neighborhood;
     option.value = neighborhood;
     select.append(option);
@@ -62,6 +64,7 @@ fillCuisinesHTML = (cuisines = self.cuisines) => {
 
   cuisines.forEach(cuisine => {
     const option = document.createElement('option');
+    //if statement here also
     option.innerHTML = cuisine;
     option.value = cuisine;
     select.append(option);
@@ -160,6 +163,8 @@ createRestaurantHTML = (restaurant) => {
 
   const image = document.createElement('img');
   image.className = 'restaurant-img';
+  //alt attribute for images
+  image.setAttribute("alt",`${restaurant.name}`);
   image.src = DBHelper.imageUrlForRestaurant(restaurant);
   li.append(image);
 
@@ -198,6 +203,20 @@ addMarkersToMap = (restaurants = self.restaurants) => {
   });
 
 } 
+
+var menu = document.querySelector('#menu');
+      var main = document.querySelector('#close');
+      var drawer = document.querySelector('.sidenav');
+
+      menu.addEventListener('click', function(e) {
+        drawer.classList.toggle('open');
+        e.stopPropagation();
+      });
+      main.addEventListener('click', function() {
+        drawer.classList.remove('open');
+      });
+
+
 /* addMarkersToMap = (restaurants = self.restaurants) => {
   restaurants.forEach(restaurant => {
     // Add marker to the map
