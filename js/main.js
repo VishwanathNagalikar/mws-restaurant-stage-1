@@ -34,8 +34,9 @@ fillNeighborhoodsHTML = (neighborhoods = self.neighborhoods) => {
   const select = document.getElementById('neighborhoods-select');
   neighborhoods.forEach(neighborhood => {
     const option = document.createElement('option');
-
-    //put if statement here
+    if(localStorage.getItem('neighborhood')===neighborhood){
+      option.setAttribute('selected','selected');
+    }
     option.innerHTML = neighborhood;
     option.value = neighborhood;
     select.append(option);
@@ -64,7 +65,6 @@ fillCuisinesHTML = (cuisines = self.cuisines) => {
 
   cuisines.forEach(cuisine => {
     const option = document.createElement('option');
-    //if statement here also
     option.innerHTML = cuisine;
     option.value = cuisine;
     select.append(option);
@@ -111,11 +111,11 @@ updateRestaurants = () => {
   const cSelect = document.getElementById('cuisines-select');
   const nSelect = document.getElementById('neighborhoods-select');
 
-  const cIndex = cSelect.selectedIndex;
-  const nIndex = nSelect.selectedIndex;
+  let cIndex = cSelect.selectedIndex;
+  let nIndex = nSelect.selectedIndex;
 
-  const cuisine = cSelect[cIndex].value;
-  const neighborhood = nSelect[nIndex].value;
+  let cuisine = cSelect[cIndex].value;
+  let neighborhood = nSelect[nIndex].value;
 
   DBHelper.fetchRestaurantByCuisineAndNeighborhood(cuisine, neighborhood, (error, restaurants) => {
     if (error) { // Got an error!

@@ -19,7 +19,7 @@
     <!-- Beginning nav -->
     <nav class="nav">
       <h1><a tabindex="0" href="/">Restaurant Reviews</a></h1>
-
+      <!-- Aria features for opening a navigation -->
       <button class="sidemenu" id="menu" role="button" aria-expanded="false" aria-label="menu"><span >&#9776;</span></button>
       <a href="#restaurant-container" class="skip-link">Skip to reviews?</a>
     </nav>
@@ -74,6 +74,13 @@
   <!-- Google Maps -->
  <!--  <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyA_tKbW6A5pQ-eupxI56myUnHLqYCzOjKo&libraries=places&callback=initMap"></script> -->
   <!-- End scripts -->
+  <script>
+    if('serviceWorker' in navigator) {
+      navigator.serviceWorker
+               .register('sw.js')
+               .then(function() { console.log("Service Worker Registered"); });
+    }
+  </script>
 
 </body>
 
