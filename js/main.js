@@ -160,24 +160,29 @@ fillRestaurantsHTML = (restaurants = self.restaurants) => {
  */
 createRestaurantHTML = (restaurant) => {
   const li = document.createElement('li');
+  li.setAttribute('tabindex','0');
 
   const image = document.createElement('img');
   image.className = 'restaurant-img';
   //alt attribute for images
   image.setAttribute("alt",`${restaurant.name}`);
+  image.setAttribute('tabindex','0');
   image.src = DBHelper.imageUrlForRestaurant(restaurant);
   li.append(image);
 
   const name = document.createElement('h1');
   name.innerHTML = restaurant.name;
+  // name.setAttribute('tabindex','0');
   li.append(name);
 
   const neighborhood = document.createElement('p');
   neighborhood.innerHTML = restaurant.neighborhood;
+  // neighborhood.setAttribute('tabindex','0');
   li.append(neighborhood);
 
   const address = document.createElement('p');
   address.innerHTML = restaurant.address;
+  // address.setAttribute('tabindex','0');
   li.append(address);
 
   const more = document.createElement('a');
@@ -204,17 +209,79 @@ addMarkersToMap = (restaurants = self.restaurants) => {
 
 } 
 
-var menu = document.querySelector('#menu');
-      var main = document.querySelector('#close');
+      var menu = document.querySelector('#menu');
+      var close = document.querySelector('#close');
       var drawer = document.querySelector('.sidenav');
+      var focusedElementBeforeModal;
 
       menu.addEventListener('click', function(e) {
         drawer.classList.toggle('open');
+        //aria features for expanding nav menu
+        menu.setAttribute('aria-expanded','true');
         e.stopPropagation();
       });
-      main.addEventListener('click', function() {
-        drawer.classList.remove('open');
-      });
+      // close.addEventListener('click', function() {
+      //   drawer.classList.remove('open');
+      //   menu.setAttribute('aria-expanded','false');
+      // });
+
+      //focus the navigation menu when it is active and defocus other elements
+      menu.addEventListener('click',openNav);
+
+      function openNav(){
+        focusedElementBeforeModal=document.activeElement;
+
+        drawer.addEventListener('keydown',trapTabKey);
+
+        close.addEventListener('click',closeNav);
+
+        var focusableElementsString = 'a[href], area[href], input:not([disabled]), select:not([disabled]), textarea:not([disabled]), button:not([disabled]), iframe, object, embed, [tabindex="0"], [contenteditable]';
+
+        var focusableElements = drawer.querySelectorAll(focusableElementsString);
+
+        focusableElements = Array.prototype.slice.call(focusableElements);
+
+        var firstTabStop = focusableElements[0];
+        var lastTabStop = focusableElements[focusableElements.length - 1];
+
+        firstTabStop.focus();
+
+       function trapTabKey(e) {
+      // Check for TAB key press
+      if (e.keyCode === 9) {
+
+        // SHIFT + TAB
+        if (e.shiftKey) {
+          if (document.activeElement === firstTabStop) {
+            e.preventDefault();
+            lastTabStop.focus();
+          }
+
+        // TAB
+        } else {
+          if (document.activeElement === lastTabStop) {
+            e.preventDefault();
+            firstTabStop.focus();
+          }
+        }
+      }
+
+      // ESCAPE
+      if (e.keyCode === 27) {
+        closeModal();
+      }
+    }
+      }
+
+     function closeNav() {
+      
+      drawer.classList.remove('open');
+      menu.setAttribute('aria-expanded','false');
+
+      // Set focus back to element that had it before the modal was opened
+      focusedElementBeforeModal.focus();
+
+    } 
 
 
 /* addMarkersToMap = (restaurants = self.restaurants) => {

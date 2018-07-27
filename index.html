@@ -13,27 +13,30 @@
 
 <body>
   <header>
-    <nav>
-      <h1><a href="/">Restaurant Reviews</a></h1>
-      <span class="sidemenu" id="menu">&#9776;</span>
+    <nav role="navigation">
+      <h1><a tabindex="0" href="/">Restaurant Review</a></h1>
+      <!-- hamburger menu using aria features for accessbility -->
+      <button href="#mySidenav" class="sidemenu" id="menu" role="button" aria-expanded="false" aria-label="menu"><span >&#9776;</span></button>
     </nav>
     
   </header>
-
+  <!-- Skip links -->
+  <a href="#restaurants-list" class="skip-link">Skip to list?</a>
+  <a href="#filters" class="skip-link">Skip to Filters if desktop user?</a>
   <main id="maincontent">
   <section id="map-container">
       <div id="map"></div>
     </section>
-  <div  id="mySidenav" class="sidenav">
-        <a href="javascript:void(0)" class="closebtn" id="close">&times;</a>
-        <a href="/">Home</a>
-        <h2>Filter Results:</h2>
-        <select id="neighborhoods-select" class="selectmenu" name="neighborhoods" onchange="updateRestaurants()">
+  <div  id="mySidenav" tabindex="0" class="sidenav" role="navigation">
+        <a  aria-label="home link" href="/">Home</a>
+        <h2 tabindex="0"  aria-label="filters" id="filters">Filter Results:</h2>
+        <select role="menu" tabindex="0" id="neighborhoods-select" class="selectmenu" name="neighborhoods" onchange="updateRestaurants()">
           <option class="select-items" value="all">All Neighborhoods</option>
         </select>
-        <select id="cuisines-select" class="selectmenu" name="cuisines" onchange="updateRestaurants()">
+        <select role="menu" tabindex="0" id="cuisines-select" class="selectmenu" name="cuisines" onchange="updateRestaurants()">
           <option value="all">All Cuisines</option>
         </select>
+        <a href="javascript:void(0)" class="closebtn" aria-label="close" id="close">&times;</a>
     </div>
     <section>
         <!-- <div class="filter-options">

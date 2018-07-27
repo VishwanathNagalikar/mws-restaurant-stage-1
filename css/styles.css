@@ -35,6 +35,36 @@ h1, h2, h3, h4, h5, h6 {
 article, aside, canvas, details, figcaption, figure, footer, header, hgroup, menu, nav, section {
   display: block;
 }
+
+.skip-link{
+  position: absolute;
+  top:-40px;
+  left:0;
+  background: #EDEF6B;
+  color: white;
+  padding: 8px;
+  z-index: 100;
+}
+
+.skip-link:focus{
+  top:0;
+}
+
+/*.inside .skip-link{
+  position: absolute;
+  top:-40px;
+  left:0;
+  background: #EDEF6B;
+  color: white;
+  padding: 8px;
+  z-index: 100;
+}
+
+.iniside .skip-link:focus{
+  top:0;
+}*/
+
+
 #maincontent {
   background-color:#CFD680;
   min-height: 100%;
@@ -196,6 +226,12 @@ nav h1 a {
   box-shadow: 5px 10px #888888;
   /*flex-grow: 1;*/
 }
+
+#restaurants-list li a:focus{
+  outline:0;
+  box-shadow: 0 0 8px 3px black;
+}
+
 #restaurants-list .restaurant-img {
   background-color: #ccc;
   border-radius: 5px;
@@ -331,6 +367,11 @@ nav h1 a {
   letter-spacing: -1px;
   padding-bottom: 1pt;
 }
+
+#reviews-container h2:focus{
+  outline:0;
+  box-shadow: 0 0 8px 3px blue;
+}
 #reviews-list {
   margin: 0;
   padding: 0;
@@ -350,6 +391,37 @@ nav h1 a {
   position: relative;
   width: 85%;
 }
+
+#restaurant-name:focus{
+  outline:0;
+  box-shadow: 0 0 8px 3px blue;
+}
+
+#restaurant-img:focus{
+  outline:0;
+  box-shadow: 0 0 8px 3px blue;
+}
+
+#restaurant-cuisine:focus{
+  outline:0;
+  box-shadow: 0 0 8px 3px blue;
+}
+
+#restaurant-address:focus{
+  outline:0;
+  box-shadow: 0 0 8px 3px blue;
+}
+
+#restaurant-hours:focus{
+  outline:0;
+  box-shadow: 0 0 8px 3px blue;
+}
+
+#reviews-list li:focus{
+  outline:0;
+  box-shadow: 0 0 8px 3px blue;
+}
+
 #reviews-list li p {
   margin: 0 0 10px;
 }
@@ -364,13 +436,25 @@ nav h1 a {
 /* ====================== Sidebar menu and nav for samll screens ====================== */
 
 .sidemenu{
-  font-size: 2rem;
+  font-size: 2.5rem;
+  border:0;
   cursor:pointer;
   position: absolute;
+  background-color: #1f2b4f;
   color:#FFFFFF;
   display: flex;
   flex-wrap: wrap;
   flex-direction: column;
+}
+
+.sidemenu:focus{
+  outline:0;
+  box-shadow: 0 0 8px 3px white;
+}
+
+.selectmenu:focus{
+  outline:0;
+  box-shadow: 0 0 8px 4px blue;
 }
 
 .inside nav{
@@ -378,7 +462,7 @@ nav h1 a {
   flex-flow: row wrap;
 }
 
-.sidenav {
+.sidenav{
     height: 100%;
     width: 60%;
     position: fixed;
@@ -395,6 +479,13 @@ nav h1 a {
     /*opacity: 0.7;
     filter: alpha(opacity=50);*/
 }
+
+  .sidenav.open{
+    -webkit-transform: translate(0, 0);
+    transform: translate(0, 0);
+    /*width:50%;*/
+    /*transition:0.9s ease;*/
+  }
 
 .sidenav a {
     padding: 8px 8px 8px 32px;
@@ -416,12 +507,7 @@ nav h1 a {
     font-size: 36px;
     margin-left: 50px;
 }
-  .sidenav.open {
-    -webkit-transform: translate(0, 0);
-    transform: translate(0, 0);
-    /*width:50%;*/
-    /*transition:0.9s ease;*/
-  }
+
 
 .sidenav select{
     padding: 8px 8px 8px 32px;
@@ -469,7 +555,7 @@ nav h1 a {
 }
 
 .closebtn{
-  visibility:hidden;
+  visibility:visible;
 }
 
 #maincontent {
@@ -557,7 +643,7 @@ footer{
   font-size: 250%;
  }
 
- nav span{
+ nav button{
   visibility:hidden;
  }
 

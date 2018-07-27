@@ -83,15 +83,21 @@ fetchRestaurantFromURL = (callback) => {
 fillRestaurantHTML = (restaurant = self.restaurant) => {
   const name = document.getElementById('restaurant-name');
   name.innerHTML = restaurant.name;
+  name.setAttribute('tabindex','0');
+  name.setAttribute('aria-label',`restaurant name ${restaurant.name}`);
 
   const address = document.getElementById('restaurant-address');
   address.innerHTML = restaurant.address;
+  address.setAttribute('aria-label',`address ${restaurant.address}`);
 
   const image = document.getElementById('restaurant-img');
+  image.setAttribute("alt",`${restaurant.name}`);
+  image.setAttribute('aria-label','image');
   image.className = 'restaurant-img'
   image.src = DBHelper.imageUrlForRestaurant(restaurant);
 
   const cuisine = document.getElementById('restaurant-cuisine');
+  cuisine.setAttribute('aria-label',`cuisine type ${restaurant.cuisine_type}`);
   cuisine.innerHTML = restaurant.cuisine_type;
 
   // fill operating hours
@@ -107,6 +113,7 @@ fillRestaurantHTML = (restaurant = self.restaurant) => {
  */
 fillRestaurantHoursHTML = (operatingHours = self.restaurant.operating_hours) => {
   const hours = document.getElementById('restaurant-hours');
+  hours.setAttribute('aria-label','working hours');
   for (let key in operatingHours) {
     const row = document.createElement('tr');
 
@@ -128,6 +135,8 @@ fillRestaurantHoursHTML = (operatingHours = self.restaurant.operating_hours) => 
 fillReviewsHTML = (reviews = self.restaurant.reviews) => {
   const container = document.getElementById('reviews-container');
   const title = document.createElement('h2');
+  //Aria features for better accessibility 
+  title.setAttribute("tabindex","0");
   title.innerHTML = 'Reviews';
   container.appendChild(title);
 
@@ -149,20 +158,25 @@ fillReviewsHTML = (reviews = self.restaurant.reviews) => {
  */
 createReviewHTML = (review) => {
   const li = document.createElement('li');
+  li.setAttribute("tabindex","0");
   const name = document.createElement('p');
+  name.setAttribute('aria-label','Person name');
   name.innerHTML = review.name;
   li.appendChild(name);
 
   const date = document.createElement('p');
   date.innerHTML = review.date;
+  date.setAttribute('aria-label','date of review');
   li.appendChild(date);
 
   const rating = document.createElement('p');
   rating.innerHTML = `Rating: ${review.rating}`;
+  rating.setAttribute('aria-label','Ratings Given');
   li.appendChild(rating);
 
   const comments = document.createElement('p');
   comments.innerHTML = review.comments;
+  comments.setAttribute('aria-label','comments');
   li.appendChild(comments);
 
   return li;
@@ -174,6 +188,7 @@ createReviewHTML = (review) => {
 fillBreadcrumb = (restaurant=self.restaurant) => {
   const breadcrumb = document.getElementById('breadcrumb');
   const li = document.createElement('li');
+  li.setAttribute('tabindex','0');
   li.innerHTML = restaurant.name;
   breadcrumb.appendChild(li);
 }
@@ -201,14 +216,76 @@ getParameterByName = (name, url) => {
   return decodeURIComponent(results[2].replace(/\+/g, ' '));
 }
 
-var menu = document.querySelector('#menu');
-      var main = document.querySelector('#maincontent');
+      var menu = document.querySelector('#menu');
+      var close = document.querySelector('#close');
       var drawer = document.querySelector('.sidenav');
+      var focusedElementBeforeModal;
 
+      //aria-expanded feature for using navigation
       menu.addEventListener('click', function(e) {
         drawer.classList.toggle('open');
+        menu.setAttribute('aria-expanded','true');
         e.stopPropagation();
       });
-      main.addEventListener('click', function() {
-        drawer.classList.remove('open');
-      });
+      // close.addEventListener('click', function() {
+      //   drawer.classList.remove('open');
+      //   menu.setAttribute('aria-expanded','false');
+      // });
+
+      //trapping tabkey for focused element 
+ menu.addEventListener('click',openNav);
+
+      function openNav(){
+        focusedElementBeforeModal=document.activeElement;
+
+        drawer.addEventListener('keydown',trapTabKey);
+
+        close.addEventListener('click',closeNav);
+
+        var focusableElementsString = 'a[href], area[href], input:not([disabled]), select:not([disabled]), textarea:not([disabled]), button:not([disabled]), iframe, object, embed, [tabindex="0"], [contenteditable]';
+
+        var focusableElements = drawer.querySelectorAll(focusableElementsString);
+
+        focusableElements = Array.prototype.slice.call(focusableElements);
+
+        var firstTabStop = focusableElements[0];
+        var lastTabStop = focusableElements[focusableElements.length - 1];
+
+        firstTabStop.focus();
+
+       function trapTabKey(e) {
+      // Check for TAB key press
+      if (e.keyCode === 9) {
+
+        // SHIFT + TAB
+        if (e.shiftKey) {
+          if (document.activeElement === firstTabStop) {
+            e.preventDefault();
+            lastTabStop.focus();
+          }
+
+        // TAB
+        } else {
+          if (document.activeElement === lastTabStop) {
+            e.preventDefault();
+            firstTabStop.focus();
+          }
+        }
+      }
+
+      // ESCAPE
+      if (e.keyCode === 27) {
+        closeModal();
+      }
+    }
+      }
+
+     function closeNav() {
+      
+      drawer.classList.remove('open');
+      menu.setAttribute('aria-expanded','false');
+
+      // Set focus back to element that had it before the modal was opened
+      focusedElementBeforeModal.focus();
+
+    }       
